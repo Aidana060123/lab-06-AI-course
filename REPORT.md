@@ -1,66 +1,44 @@
 # REPORT — what the measurement showed, who it affects, and whose responsibility it is
-<!-- STUDENT: replace -->
 
-Replace this whole template with your own text. Delete the line above (the `STUDENT: replace`
-marker) once you have, and delete these instructions and the guiding questions too. Keep the three
-numbered headings. Every number you quote must be one **your own notebook printed**, copied exactly,
-with the group it refers to (which attribute, how many pairs). Which dimension each section is
-graded against is in the README.
-
-The guiding questions are prompts, not a form: you do not have to answer each one in turn, and
-answering them without evidence from your run earns nothing.
+Author: Maksym Aidana, Narxoz University. Course CSS-4007, Lab 06.
 
 ## 1. Measurement read-out
 
-(Dimension: Evidence of Specific Impact.)
+I ran the supplied agent on 40 matched pairs for each attribute. The model shortlisted 356 of 400 profiles, and 0 replies could not be read.
 
-Guiding questions:
+| Group (40 pairs each) | Flips | Mean abs. score difference | Floor |
+|---|---|---|---|
+| Name language | 2 of 40 | 3.12 | null_name: 0 of 40 flips, 2.00 |
+| Gender-coded name | 4 of 40 | 1.12 | null_name: 0 of 40 flips, 2.00 |
+| University | 1 of 40 | 2.50 | null_university: 1 of 40 flips, 2.12 |
 
-- For each attribute (name language, gender-coded name, university): how many pairs, how many
-  flips, in which direction, and what was the typical score shift? Are these counts and magnitudes,
-  or a description of them?
-- Which attribute moved the decision, and by how much, **read against its own floor**? If a real
-  attribute's divergence is no larger than its floor's, what does that allow you to say, and
-  what does it not?
-- How much of the divergence could be noise? What do the two floors (`null_name` for the name
-  attributes, `null_university` for the university) test, and what do they leave untested (think about
-  what they change and what they keep fixed)? What would a stronger estimate require?
-- If nothing stands clear of its floor: what exactly can you say (counts, intervals), what could your
-  number of pairs have detected and not detected, and why is "no measured effect" not "no effect"?
-- Would the same attribute behave the same way with a different prompt wording, a different
-  model, or real applicants? Say what your run can and cannot support.
+- All 4 gender flips went against the male-coded name. The exact test gave p = 0.125, so I do not call this an effect.
+- The intervals of the real attributes overlap with their floors. On flips, no attribute clearly stands above its floor.
+- On mean absolute score difference, two attributes are above their floors by the point estimate: name language (3.12 against 2.00) and university (2.50 against 2.12). In both cases the 95% intervals overlap with the floor's interval (name language [1.38, 5.25] against [0.62, 3.62]; university [1.12, 4.12] against [0.88, 3.62]), so I do not call either an effect. Gender-coded name (1.12) is below its floor (2.00).
+- University scores: in all 10 pairs with different scores, the flagship university got the higher score. The mean shift was +2.5 (interval +1.1 to +4.1, sign test p = 0.002). The gap is small and it changed only 1 decision.
+- With 40 pairs, an exact test needs at least 6 flips to be significant. So my sample cannot see small effects.
+- My predictions were wrong. I expected 6 to 10 flips for university and 3 to 6 for gender.
+
+What the floors cover: another name of the same language and gender coding, and another university of the same tier. What they do not cover: other prompt wordings, other models, other irrelevant details. No measured effect is not the same as no effect. Real applicants could behave differently from these synthetic ones. A stronger estimate needs more pairs, several prompt wordings and more than one model.
 
 ## 2. Who is affected
 
-(Dimension: Affected Parties and the Consequences They Bear.)
+- **Wrongly rejected:** an applicant from a non-flagship university, or with a male-coded first name. Measured link: the flagship score gap (+2.5, 10 of 10 pairs) and the 4 of 4 gender flips against the male-coded name. The cost is a lost scholarship place and a record that may follow the person. The gap is small, so only people near the shortlist line are at risk.
+- **Wrongly shortlisted:** an applicant who gets the extra points from a flagship university. This person takes a place from someone else, because places are limited.
+- **Not named in the brief:** people who do not apply because they expect to be rejected; the staff who read escalated cases (my band would send 64 of 400 baseline profiles, 16.0%, to them; in the harness run it was 34 of 400, 8.5%); the fund; applicants from universities the model has never seen.
+- **If my sample missed an effect:** with 40 pairs I could not see anything below about 6 flips. The same groups would pay for it.
+- **Over the years:** if the score is used later by another stage, a small gap is repeated and can grow.
 
-Guiding questions:
-
-- On each side of a **wrong** decision, who is it? Who is wrongly rejected, and who is wrongly
-  shortlisted (and therefore who is displaced from a limited number of places)? Tie each group
-  to a divergence you measured, not to a general statement that "some groups may be harmed".
-- What does each wrong decision cost the person it falls on (money, a place, time, a record
-  that follows them)? Is the cost the same for a wrongly rejected applicant and a wrongly shortlisted one?
-- Which parties does the brief not mention, but that are affected anyway (people who never
-  applied because they expected to be rejected; the staff who review escalated cases; the fund;
-  applicants from institutions the model has never seen)?
-- If you measured no divergence beyond the floors: who would bear the cost if there were one that your
-  sample could not detect? Tie that to what your number of pairs could and could not see.
-- Which consequences compound when the agent is used year after year, or when its output is
-  used as an input to the next stage (a later review, another fund, a published ranking)?
+After the harness (Part 3): the flips are 0 of 40 in all five groups, but this is zero by construction because name and university are hidden. What is informative: 46 of 400 decisions changed (reject to escalate 22, shortlist to escalate 12, shortlist to reject 7, reject to shortlist 5) and 166 of 400 scores changed (mean absolute change 14.01). This does not prove the model used the removed fields, because removing lines also changes the prompt. 34 of 400 profiles (8.5%) went to a person, 0 were refused, and the cost was 400 model calls in both runs. My own escalation rule did not fire on any profile; all 34 were in the score band.
 
 ## 3. Professional responsibility
 
-(Dimension: Recognition of Professional Responsibility.)
+My responsibilities as the developer:
+- Check the system before it runs. I measured it with matched pairs and floors, and I tested the refusal path in Part 4 (the harness refused 5 of 6 test requests; the bare pipeline refused 0).
+- Tell the deployer the limits: 40 pairs per attribute, one model, one prompt wording, synthetic data, and the score band was chosen on one configuration.
+- Not claim that the harness removes bias. Blinding makes the name and university pairs identical text, so their after-flips are zero by construction. That table does not prove anything about the model.
+- Keep the log, so a decision can be audited without running the model again.
 
-Guiding questions:
+What I did: the measurement, the five controls, the log, and the written justification. What is left: more pairs, other prompt wordings, a real appeals process, and reading the legal texts again before real use.
 
-- Given what you measured, what are **your** specific responsibilities as the developer of the
-  harness: what must you check before it runs, what must you tell the people who deploy it, what
-  must you not claim about it?
-- What would discharging each of those responsibilities require in practice (a test, a
-  documented limit, a stop condition)? What have you actually done in this lab, and what is left?
-- Which responsibilities belong to the **institution** that deploys the system (setting the
-  purpose, choosing who reviews, handling appeals) rather than to you?
-- Where do the two conflict? For example, what happens if the institution wants a control removed
-  because it slows the process or costs money, and you have measured what that control prevents?
+The institution is responsible for the purpose of the system, choosing and training the reviewers, and handling appeals. If the institution wants a control removed because it is slow or costly, I must say what that control prevented in my measurement (for example the university gap, p = 0.002) and what I could not measure.

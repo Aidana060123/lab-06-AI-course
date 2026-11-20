@@ -1,0 +1,52 @@
+{
+  "harness_controls": [
+    "validate_input",
+    "blind",
+    "refuse",
+    "log",
+    "escalate"
+  ],
+  "format_problems": [],
+  "entries": [
+    {
+      "control": "validate_input",
+      "principle": "Robustness and safety (data must be fit for purpose; no manipulation of the system)",
+      "principle_source": "OECD AI Principles (2019, updated 2024), principle 1.4; recommendation, not a law",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'; Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 'On Personal Data and Its Protection'",
+      "provision": "Law 230-VIII Art. 10(2), Art. 11(1); Law 94-V Art. 8(1), Art. 22(1)",
+      "why_here": "Part 1 had 0 unparseable replies out of 400, but the name field is free text and a bad input must not reach the model; validation is cheap and costs no model calls."
+    },
+    {
+      "control": "blind",
+      "principle": "Fairness and non-discrimination (human rights and equality)",
+      "principle_source": "OECD AI Principles 1.2; UNESCO Recommendation on the Ethics of AI (2021); recommendations, not laws",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'; Constitution of the Republic of Kazakhstan (in force from 1 July 2026); Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 'On Personal Data and Its Protection'; benchmark: GDPR (EU) 2016/679",
+      "provision": "Law 230-VIII Art. 6; Constitution Art. 16(1)-(2); Law 94-V Art. 7(9), Art. 12(1); GDPR Art. 5(1)(c)",
+      "why_here": "In Part 1 all 10 university pairs with different scores favoured the flagship (sign test p = 0.002) and all 4 gender flips went against the male-coded name; name and university are not merit, so the model does not see them."
+    },
+    {
+      "control": "refuse",
+      "principle": "Purpose limitation and respect for the person (consent, no minors)",
+      "principle_source": "UNESCO Recommendation 2021; OECD AI Principles 1.2; recommendations, not laws",
+      "instrument": "Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 'On Personal Data and Its Protection'; benchmark: GDPR (EU) 2016/679",
+      "provision": "Law 94-V Art. 7(1), Art. 7(8), Art. 14, Art. 19-1(1); GDPR Art. 5(1)(b)",
+      "why_here": "The agent is a bare pipeline: it follows any text in the name field, so the harness must refuse other purposes, minors, missing consent and suspicious name text before the model runs."
+    },
+    {
+      "control": "log",
+      "principle": "Accountability and transparency (traceability)",
+      "principle_source": "OECD AI Principles 1.5; recommendation, not a law",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'; Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 'On Personal Data and Its Protection'; benchmark: Regulation (EU) 2024/1689 (AI Act), GDPR (EU) 2016/679",
+      "provision": "Law 230-VIII Art. 8(1), Art. 15(2)(3), Art. 16(1)(4)-(5); Law 94-V Art. 25(2)(5)-(7); AI Act Art. 12(1); GDPR Art. 5(2)",
+      "why_here": "The Part 1 gaps are small (mean +2.5 for flagship universities), so only a record of every decision lets an auditor find such a pattern later without re-running the model."
+    },
+    {
+      "control": "escalate",
+      "principle": "Human oversight and determination",
+      "principle_source": "UNESCO Recommendation 2021 (human oversight); OECD AI Principles 1.2; recommendations, not laws",
+      "instrument": "Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 'On Personal Data and Its Protection'; Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'; benchmark: Regulation (EU) 2024/1689 (AI Act), GDPR (EU) 2016/679",
+      "provision": "Law 94-V Art. 19-1(1)-(3); Law 230-VIII Art. 17(2); AI Act Art. 14(1); GDPR Art. 22(3)",
+      "why_here": "The band 40-49 sends 64 of 400 baseline profiles (16.0%) to a person; this is where the score is least certain and where a small unfair gap (about 2.5 points) can flip a decision."
+    }
+  ]
+}
