@@ -66,6 +66,10 @@ Kazakhstan law binds a fund in Kazakhstan; EU law does not, so I use it only as 
 
 ## AI-use declaration
 
-I used Claude (Anthropic) as a study helper in this lab. It helped me to understand the task, to draft code for the Part 2 cells (the blind fields, the refusal rule, the escalation rule and the register text), to write the observation and report text in simple English, and to check my notebook for errors. It also helped me to find which Kazakh and EU legal texts exist, to find the pages where they are published, and to suggest which articles of them to look at when I wrote sections 4 and 6 and the control register.
+I used Claude (Anthropic) as a study helper in this lab.
 
-All numbers in my text come from my own notebook output, which I ran in Colab. I did not use a chat answer as a legal citation: every article number in section 4 is taken from the text of the instrument, not from a chat answer. I checked and edited every text before submitting. The model Qwen2.5-3B-Instruct is part of the lab and is not an AI tool I used for writing.
+Code: Claude wrote the code of the Part 2 cells (the blind fields, the refusal rule, the escalation rule, the harness setup and the text of the control register). I ran it in Colab and checked the output.
+
+Texts: Claude wrote a first draft of OBSERVATION_1 and helped me to find and correct an error in it (the floors and the name of the statistical test). I wrote OBSERVATION_3 and OBSERVATION_4 myself, and I changed and wrote my predictions myself. Claude also checked my notebook and my files for errors.
+
+Legal texts: I found and read the legal texts myself on adilet.zan.kz and EUR-Lex. Every article number in section 4 comes from the instrument itself, not from a chat answer. All numbers in my text come from my own run in Colab.
